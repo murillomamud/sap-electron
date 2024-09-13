@@ -22,6 +22,7 @@
       "main.js",
       "preload.js",
       "config.json",
+      "status.html",
       "assets/**/*" 
     ],
     "win": {

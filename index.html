@@ -37,13 +37,13 @@
       .then(response => response.json())
       .then(data => {
         const listElement = document.getElementById('option-list');
-        data.forEach(option => {
+        data.forEach((option, index) => {
           const li = document.createElement('li');
           li.textContent = option.label;
-          li.dataset.params = option.params;
+          li.dataset.index = index;
           li.addEventListener('click', () => {
-            const params = li.dataset.params;
-            window.electron.send('launch-sap', params);
+            const index = li.dataset.index;
+            window.electron.send('launch-sap', index);
           });
           listElement.appendChild(li);
         });
