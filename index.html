@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP Launcher</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .option-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .option-list li {
+      margin: 10px 0;
+      cursor: pointer;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      transition: background-color 0.3s;
+    }
+    .option-list li:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Choose SAP Logon</h1>
+  <ul id="option-list" class="option-list"></ul>
+
+  <script>
+    // Carregue o arquivo de configuração
+    fetch('config.json')
+      .then(response => response.json())
+      .then(data => {
+        const listElement = document.getElementById('option-list');
+        data.forEach(option => {
+          const li = document.createElement('li');
+          li.textContent = option.label;
+          li.dataset.params = option.params;
+          li.addEventListener('click', () => {
+            const params = li.dataset.params;
+            window.electron.send('launch-sap', params);
+          });
+          listElement.appendChild(li);
+        });
+      })
+      .catch(error => console.error('Error loading config:', error));
+  </script>
+  <script src="renderer.js"></script>
+</body>
+</html>
